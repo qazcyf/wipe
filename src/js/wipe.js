@@ -1,6 +1,6 @@
 var cas = document.getElementById('cas');
 var context = cas.getContext("2d");
-var _w = cas.width,_h = cas.height,t = 0;
+var _w = cas.width,_h = cas.height;
 var radius = 30;  //涂抹的半径
 var posX = 0;
 var posY = 0;
@@ -140,6 +140,7 @@ function clearRect(context){
 	context.clearRect(0,0,_w,_h);
 }
 function getTransparencyPercent(context){
+	var t = 0;
 	var imgData = context.getImageData(0,0,_w,_h);
 	for (var i = 0; i < imgData.data.length; i+=4) {
 		var a = imgData.data[i + 3];
