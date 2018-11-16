@@ -44,11 +44,11 @@ module.exports = function(grunt){
 		},
 		replace:{
 			example:{
-				src:['sample/js/index.html'],
+				src:['sample/index.html'],
 				overwrite:true,
 				replacements:[{
-					from:/wipe*.min.js/g,
-					to:'wipe-<%=pkg.version%>.min.js'
+					from:/\d[\.]\d[\.]\d/g,
+					to:'<%=pkg.version%>'
 				}]
 			}
 		}
