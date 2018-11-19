@@ -13,6 +13,8 @@ function Wipe(wipeConfig){
 	this.width = wipeConfig.width;
 	this.height = wipeConfig.height;
 	this.cas = document.getElementById(this.conId);
+	this.cas.style.background = "url(" + wipeConfig.imgUrl + ") center  0 no-repeat";
+	this.cas.style.backgroundSize = "cover";
 	this.context = cas.getContext("2d");
 	this._w = this.width;
 	this._h = this.height;
