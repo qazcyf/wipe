@@ -16,11 +16,11 @@
 			/*background: url(images/wipe1.jpg) center  0 no-repeat;
 			background-size: cover;*/
 		}
-		#box{
+		/*#box{
 			position: relative;
 			left: 100px;
 			top: 100px;
-		}
+		}*/
 	</style>
 </head>
 <body>
@@ -44,10 +44,10 @@
 		width:"375",  //canvas宽
 		height:"667",  //canvas高
 		radius:20,  //涂抹笔的半径
-		wipedCallback:wipedCallback
+		wipedCallback:wipedCallback,
+		text:["你中奖了","请下次再来","再来一次"] //显示文字，可继续填写
 	}
 	var cas01 = new Wipe(wipeConfig);
-	console.log(cas01);
 	function wipedCallback(percent){
 		if (percent > 50) {
 			console.log("投影面积超过50%,查看底图" + percent);

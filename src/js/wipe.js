@@ -5,7 +5,6 @@ email: 3120376265@qq.com
 */
 function Wipe(wipeConfig){
 	this.conId = wipeConfig.id;
-	console.log(wipeConfig.color);
 	this.color = wipeConfig.color || "gray";
 	this.radius = wipeConfig.radius;
 	this.coverType = wipeConfig.coverType;
@@ -13,6 +12,9 @@ function Wipe(wipeConfig){
 	this.width = wipeConfig.width;
 	this.height = wipeConfig.height;
 	this.cas = document.getElementById(this.conId);
+	this.arr = wipeConfig.text;
+	this.text = wipeConfig.text[randomNum(0, wipeConfig.text.length)];
+	console.log(this.text);
 	this.cas.style.background = "url(" + wipeConfig.imgUrl + ") center  0 no-repeat";
 	this.cas.style.backgroundSize = "cover";
 	this.context = cas.getContext("2d");
@@ -28,10 +30,11 @@ function Wipe(wipeConfig){
 	this.moveEvtName = this.device ? "touchmove" : "mousemove";
 	this.endEvtName = this.device ? "touchend" : "mouseup";
 	this.wipedCallback = wipeConfig.wipedCallback;
+	this.context.restore();
 	this.drawMask();
 	this.drawT();
-	this.getTransparencyPercent();
 	this.shijian();
+	this.context.save();
 }
 // drawT画点和画线函数
 // 参数：如果只传递两个参数x1,y1，函数功能画圆，x1,y1即圆的中心坐标
@@ -39,7 +42,7 @@ function Wipe(wipeConfig){
 Wipe.prototype.drawT = function(x1,y1,x2,y2){
 	var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 	var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
-	console.log(scrollTop);
+	// console.log(scrollTop);
 	if (arguments.length === 2) {
 		// 调用的是画点功能
 		this.context.save();
@@ -65,6 +68,7 @@ Wipe.prototype.drawT = function(x1,y1,x2,y2){
 // 清除画布
 Wipe.prototype.clearRect = function(){
 	this.context.clearRect(0,0,this._w,this._h);
+	alert(this.text);
 }
 // 获取透明点百分比
 Wipe.prototype.getTransparencyPercent = function(){
@@ -78,13 +82,13 @@ Wipe.prototype.getTransparencyPercent = function(){
 	}
 	this.percent = t/(this._w * this._h) * 100;
 	console.log("透明点的个数：" + t);
-	console.log("占总面积" + Math.round(this.percent) + "%");
+	// console.log("占总面积" + Math.round(this.percent) + "%");
 	// return ((t / (_w * _h) )*100).toFixed(2);  //截取小数点两位
 	return Math.round(this.percent);
 }
 Wipe.prototype.drawMask = function(){
 	if (this.coverType === "color") {
-		console.log(this.color);
+		// console.log(this.color);
 		this.context.fillStyle = this.color;
 		this.context.fillRect(0,0,this._w,this._h);
 		this.context.globalCompositeOperation = "destination-out";
@@ -97,9 +101,12 @@ Wipe.prototype.drawMask = function(){
 			that.context.globalCompositeOperation = "destination-out";
 		}
 	}
-	
 }
 Wipe.prototype.shijian = function(){
+	var that = this;
+	setTimeout(function(){
+		that.getTransparencyPercent();
+	},500);
 	var that = this;
 	// 在canvas画布上监听自定义事件"mousedown"，调用drawPoint函数
 	that.cas.addEventListener(that.clickEvtName,function(evt){
@@ -154,4 +161,8 @@ function getAllTop(element){
 	}
 	// console.log(allTop);
 	return allTop;
+}
+// 封装随机数
+function randomNum(max, min){
+	return Math.floor( Math.random()*(max-min) + min );
 }
